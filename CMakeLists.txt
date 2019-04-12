@@ -10,3 +10,7 @@ set(CW_INCLUDE ${CMAKE_SOURCE_DIR}/include) # The directory where includes are p
 project(UltimateBattleship LANGUAGES C CXX VERSION 0.0.1)
 
 target_link_directories(UltimateBattleship ${CW_INCLUDE})
+
+if(BUILD_SPIKE)
+  add_subdirectory(spike)
+endif()
