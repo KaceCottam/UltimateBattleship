@@ -7,6 +7,7 @@ option(CW_SFML_TYPE_GCC "Using SFML with GCC/minGW" ON)
 option(CW_LINK_STATIC "Link SFML Statically" OFF)
 
 # Allows setting which SFML to use.
+# Compiling with Visual Studio requires a .vxcproj file.
 if(CW_SFML_TYPE_VS)
   set(CW_SFML_TYPE "VS")
   set(CW_SFML_LIB_PRE "")
