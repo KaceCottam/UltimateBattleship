@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+
 int main() {
   // Create the main window
   sf::RenderWindow window{sf::VideoMode(800, 600), "SFML window"};
@@ -14,9 +15,10 @@ int main() {
       "This is a short test for a ball and events.\n"
       "Click to move the ball.\n"
       "Press Q or E, or use the mouse wheel to scale the ball.\n"
-      "You can make the ball Red, Blue, Green, and Yellow by pressing the key "
-      "that matches the first letter of the color."};
-  sf::Text text(main_text, font, 12);
+      "You can make the ball Red, Blue, Green, and Yellow by pressing the key\n"
+      "\tthat matches the first letter of the color."};
+  sf::Text text(main_text, font, 18);
+  text.setPosition(100,100);
   // Variable to know if we are dragging the ball
   bool toggle_drag = false;
   // Start the game loop
@@ -31,24 +33,20 @@ int main() {
 
       // Change ball size with mouse scrolling
       if (event.type == sf::Event::MouseWheelScrolled) {
-        ball.setRadius(ball.getRadius() + event.mouseWheelScroll.delta);
-        ball.setPosition(
-            {ball.getPosition() - sf::Vector2f{event.mouseWheelScroll.delta,
-                                               event.mouseWheelScroll.delta}});
+        ball.scale(event.mouseWheelScroll.delta,event.mouseWheelScroll.delta);
+        ball.move(-event.mouseWheelScroll.delta, -event.mouseWheelScroll.delta);
       }
 
       // Change ball size with Q (grow) and E (shrink) keys
       if (event.type == sf::Event::KeyPressed) {
         switch (event.key.code) {
           case sf::Keyboard::Q:  // Grow
-            ball.setRadius(ball.getRadius() + 2);
-            // Keep center of ball in same position- when resized, the anchor
-            // point is the top left.
-            ball.setPosition({ball.getPosition() - sf::Vector2f{2, 2}});
+            ball.scale(1.02f,1.02f);
+            ball.move(-ball.getScale());
             break;
           case sf::Keyboard::E:  // Shrink
-            ball.setRadius(ball.getRadius() - 2);
-            ball.setPosition({ball.getPosition() + sf::Vector2f{2, 2}});
+            ball.scale(0.98f,0.98f);
+            ball.move(ball.getScale());
             break;
 
           case sf::Keyboard::B:
