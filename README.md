@@ -19,6 +19,8 @@ Built in Visual Studio Code and Visual Studio 2015.
 - [tests](tests/) is used for testing code.
 - [spike](spike/) is used for testing projects. Simple things such as drawing balls and working out GUI constructs.
 - [lib](lib/) is where we keep our libraries.
+- [docs](docs/) is where we keep documentation.
+- [assets](assets/) is where we keep things like sprites and sounds.
 
 ## Installation
 
@@ -40,5 +42,6 @@ In multiplayer you must connect to a host by IP Address, then you may play!
 - [ ] Multiplayer shooting at enemy ships
 - [ ] Singleplayer Difficulty options
 - [ ] Special ship abilities?
-
+- [ ] Maps?
+- [ ] User-customizable maps?
 \* Bolded items are on the priority list.
