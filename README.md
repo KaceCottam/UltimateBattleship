@@ -22,7 +22,7 @@ Built in Visual Studio Code and Visual Studio 2015.
 
 ## Installation
 
-In the [releases](/) tab. (When there is a release)
+In the [releases](projects) tab. (When there is a release)
 
 ## Playing
 
