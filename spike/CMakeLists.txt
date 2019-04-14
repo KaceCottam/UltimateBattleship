@@ -19,4 +19,4 @@ endfunction()
 
 register_spike(NAME WindowAndDrawBall
                SOURCES WindowAndDrawBall.cpp
-               DEPENDENCIES sfml-graphics)
+               DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)

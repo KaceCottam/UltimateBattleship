@@ -41,6 +41,11 @@ set(SFML_DIR "${CMAKE_SOURCE_DIR}/lib/SFML_${CW_SFML_TYPE}/lib/cmake/SFML")
 set(SFML_INCLUDE "${CMAKE_SOURCE_DIR}/lib/SFML/include")
 find_package(SFML 2.5 REQUIRED system window graphics network audio)
 
+# add fmt library
+add_subdirectory(lib/fmt)
+# add spdlog library
+add_subdirectory(lib/spdlog)
+
 # Defining all of the files
 set(
   UB_SOURCE_FILES src/main.cpp
