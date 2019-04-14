@@ -1,91 +1,97 @@
+#include <fmt/format.h>
+#include <spdlog/spdlog.h>
 #include <SFML/Graphics.hpp>
+
 int main() {
+  using spdlog::info;
+  using fmt::format;
+  using namespace sf;
+  using namespace fmt::literals;
   // Create the main window
-  sf::RenderWindow window{sf::VideoMode(800, 600), "SFML window"};
+  RenderWindow window{VideoMode(800, 600), "SFML window"};
   // Create a ball
-  sf::CircleShape ball{100, 90ULL};
-  ball.setFillColor(sf::Color::Blue);
+  CircleShape ball{100.f, 90ULL};
+  ball.setFillColor(Color::Blue);
+  ball.setPosition(300.f, 300.f);
   // Create a graphical text to display
-  sf::Font font;
+  Font font;
   // If this returns EXIT_FAILURE you are not running it from the bin/ directory
-  if (!font.loadFromFile("ARIAL.TTF")) return EXIT_FAILURE; 
-  const char* main_text{
-      "Hello SFML\n"
+  if (!font.loadFromFile("ARIAL.TTF")) return EXIT_FAILURE;
+  Text text("Hello SFML\n"
       "This is a short test for a ball and events.\n"
       "Click to move the ball.\n"
-      "Press Q or E, or use the mouse wheel to scale the ball.\n"
-      "You can make the ball Red, Blue, Green, and Yellow by pressing the key "
-      "that matches the first letter of the color."};
-  sf::Text text(main_text, font, 12);
-  // Variable to know if we are dragging the ball
-  bool toggle_drag = false;
+      "Press Q (grow) or E (shrink), or use the mouse wheel to scale the "
+      "ball.\n"
+      "You can make the ball Red, Blue, Green, and Yellow by pressing the key\n"
+      "\tthat matches the first letter of the color.", font, 18);
+
+  auto regular_viewport = FloatRect{0.f, 0.f, 800.f, 600.f};
+  View view(regular_viewport);
   // Start the game loop
   while (window.isOpen()) {
     // Process events
-    sf::Event event{};
+    Event event{};
     while (window.pollEvent(event)) {
       // Close window: exit
-      if (event.type == sf::Event::Closed) {
+      if (event.type == Event::Closed) {
         window.close();
       }
 
       // Change ball size with mouse scrolling
-      if (event.type == sf::Event::MouseWheelScrolled) {
-        ball.setRadius(ball.getRadius() + event.mouseWheelScroll.delta);
-        ball.setPosition(
-            {ball.getPosition() - sf::Vector2f{event.mouseWheelScroll.delta,
-                                               event.mouseWheelScroll.delta}});
+      if (event.type == Event::MouseWheelScrolled) {
+        view.zoom(1 + event.mouseWheelScroll.delta);
+        info("Changed zoom by a factor of {}."_format(event.mouseWheelScroll.delta));
+      }
+      // Move view if mouse moved and pressed mouse button.
+      if (event.type == Event::MouseMoved) {
+        if (Mouse::isButtonPressed(Mouse::Left)) {
+          view.setCenter(800.f - event.mouseMove.x, 600.f - event.mouseMove.y);
+          info("Moved center of view to {{{},{}}}."_format(view.getCenter().x,
+                                                           view.getCenter().y));
+        }
       }
 
       // Change ball size with Q (grow) and E (shrink) keys
-      if (event.type == sf::Event::KeyPressed) {
-        switch (event.key.code) {
-          case sf::Keyboard::Q:  // Grow
-            ball.setRadius(ball.getRadius() + 2);
-            // Keep center of ball in same position- when resized, the anchor
-            // point is the top left.
-            ball.setPosition({ball.getPosition() - sf::Vector2f{2, 2}});
-            break;
-          case sf::Keyboard::E:  // Shrink
-            ball.setRadius(ball.getRadius() - 2);
-            ball.setPosition({ball.getPosition() + sf::Vector2f{2, 2}});
-            break;
+      if (Keyboard::isKeyPressed(Keyboard::Q)) {
+        view.zoom(1.02f);
+        info("Increased zoom by a factor of 2%.");
+      }
+      if (Keyboard::isKeyPressed(Keyboard::E)) {
+        view.zoom(0.98f);
+        info("Decreased zoom by a factor of 2%.");
+      }
 
-          case sf::Keyboard::B:
-            ball.setFillColor(sf::Color::Blue);
+      // Change ball color if B, R, Y, or G is pressed
+      if (event.type == Event::KeyPressed) {
+        switch (event.key.code) {
+          case Keyboard::B:
+            ball.setFillColor(Color::Blue);
+            info("Changed ball color to blue.");
             break;
-          case sf::Keyboard::R:
-            ball.setFillColor(sf::Color::Red);
+          case Keyboard::R:
+            if (event.key.shift) {
+              view.reset(regular_viewport);
+              info("Viewport reset.");
+              break;
+            }
+            ball.setFillColor(Color::Red);
+            info("Changed ball color to red.");
             break;
-          case sf::Keyboard::Y:
-            ball.setFillColor(sf::Color::Yellow);
+          case Keyboard::Y:
+            ball.setFillColor(Color::Yellow);
+            info("Changed ball color to yellow.");
             break;
-          case sf::Keyboard::G:
-            ball.setFillColor(sf::Color::Green);
+          case Keyboard::G:
+            ball.setFillColor(Color::Green);
+            info("Changed ball color to green.");
             break;
-        }
-      }
-      if (event.type == sf::Event::MouseButtonPressed) {
-        if (event.mouseButton.button == sf::Mouse::Left || window.hasFocus()) {
-          toggle_drag = true;
-        }
-      }
-      if (event.type == sf::Event::MouseButtonReleased) {
-        if (event.mouseButton.button == sf::Mouse::Left || window.hasFocus()) {
-          toggle_drag = false;
-        }
-      }
-      if (event.type == sf::Event::MouseMoved) {
-        if (toggle_drag) {
-          // Set ball position to where the mouse is - the ball's radius
-          ball.setPosition(
-              window.mapPixelToCoords({event.mouseMove.x, event.mouseMove.y}) -
-              sf::Vector2f{ball.getRadius(), ball.getRadius()});
         }
       }
     }
     // Clear screen
     window.clear();
+    // Set window viewport to `view`
+    window.setView(view);
     // Draw the sprite
     window.draw(ball);
     // Draw the string
