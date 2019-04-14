@@ -1,5 +1,4 @@
 # Table of Contents
 
-[Contributing](contrib.md)
-
-[Ideas](ideas.md)
+- [Contributing](contrib.md)
+- [Ideas](ideas.md)
