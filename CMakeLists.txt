@@ -47,12 +47,11 @@ add_subdirectory(lib/fmt)
 # add spdlog library
 add_subdirectory(lib/spdlog)
 
-# Defining all of the files
-set(
-  UB_SOURCE_FILES src/main.cpp
-) 
-
 if(BUILD_SOURCE)
+  # Defining all of the files
+  set(
+    UB_SOURCE_FILES src/main.cpp
+  )
   add_executable(UltimateBattleship ${UB_SOURCE_FILES}) # Tell CMake to build to
                                                         # an executable
 
