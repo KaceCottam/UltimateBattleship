@@ -79,8 +79,8 @@ int main() {
           event.mouseButton.button == Mouse::Left &&
           mouse_properties.pressed == Vector2f{0, 0}) {
         mouse_properties.pressed =
-            window.mapPixelToCoords({event.mouseButton.x, event.mouseButton.y});
-        mouse_properties.current = mouse_properties.pressed;
+            Vector2f{event.mouseButton.x - window.getPosition().x,
+                     event.mouseButton.y - window.getPosition().y};
         info("Mouse pressed at {{ {}, {} }}"_format(
           mouse_properties.pressed.x,mouse_properties.pressed.y));
       }
@@ -90,10 +90,15 @@ int main() {
       }
       if (event.type == Event::MouseMoved &&
           mouse_properties.pressed != Vector2f{0, 0}) {
-        Vector2 move{
-            mouse_properties.current.x - mouse_properties.pressed.x,
+        mouse_properties.current =
+            Vector2f{event.mouseMove.x - window.getPosition().x,
+                     event.mouseMove.y - window.getPosition().y};
+        Vector2f move{
+            mouse_properties.pressed.x - mouse_properties.current.x,
             mouse_properties.pressed.y - mouse_properties.current.y};
-         info("Move {{ {}, {} }}"_format())
+        mouse_properties.pressed = mouse_properties.current;
+        info("Move {{ {}, {} }}"_format(move.x, move.y));
+        view.move(move);
       }
       // Change ball size with Q (grow) and E (shrink) keys
       if (event.type == Event::KeyPressed && event.key.code == Keyboard::Q) {
