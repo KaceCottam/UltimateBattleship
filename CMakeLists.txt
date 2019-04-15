@@ -5,6 +5,10 @@ cmake_minimum_required(VERSION 3.8)
 option(CW_SFML_TYPE_VS "Using SFML with Visual Studio 14" OFF)
 option(CW_SFML_TYPE_GCC "Using SFML with GCC/minGW" ON)
 option(CW_LINK_STATIC "Link SFML Statically" OFF)
+option(BUILD_SOURCE "Build the source files" OFF)
+option(BUILD_TESTS "Build the test files" ON)
+option(BUILD_SPIKE "Build the spike files (files made for testing code snippets)"
+       ON)
 
 # Allows setting which SFML to use.
 # Compiling with Visual Studio requires a .vxcproj file.
@@ -27,11 +31,6 @@ if(CW_LINK_STATIC)
   set(CMAKE_FIND_LIBRARY_SUFFIXES ${CW_SFML_LIB_SUF})
 endif()
 
-option(BUILD_SOURCE "Build the source files" OFF)
-option(BUILD_TESTS "Build the test files" ON)
-option(BUILD_SPIKE "Build the spike files (files made for testing code snippets)"
-       ON)
-
 set(CW_BIN ${CMAKE_SOURCE_DIR}/bin) # The binary output directory
 
 project(UltimateBattleship LANGUAGES C CXX VERSION 0.0.1) # Setup project
@@ -39,8 +38,7 @@ project(UltimateBattleship LANGUAGES C CXX VERSION 0.0.1) # Setup project
 
 # include SFML. Must be done here so that everything links correctly.
 set(SFML_DIR "${CMAKE_SOURCE_DIR}/lib/SFML_${CW_SFML_TYPE}/lib/cmake/SFML")
-set(SFML_INCLUDE "${CMAKE_SOURCE_DIR}/lib/SFML/include")
-find_package(SFML 2.5 REQUIRED system window graphics network audio)
+find_package(SFML 2.5 REQUIRED graphics network audio)
 
 # add fmt library
 add_subdirectory(lib/fmt)
