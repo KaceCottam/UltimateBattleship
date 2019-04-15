@@ -21,6 +21,7 @@ Built in Visual Studio Code and Visual Studio 2015.
 - [lib](lib/) is where we keep our libraries.
 - [docs](docs/) is where we keep documentation.
 - [assets](assets/) is where we keep things like sprites and sounds.
+- [include](include/) is where we keep our self-made libraries.
 
 ## Installation
 

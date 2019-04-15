@@ -29,7 +29,8 @@ endif()
 
 option(BUILD_SOURCE "Build the source files" OFF)
 option(BUILD_TESTS "Build the test files" ON)
-option(BUILD_SPIKE "Build the spike files (files made for testing code snippets)" ON)
+option(BUILD_SPIKE "Build the spike files (files made for testing code snippets)"
+       ON)
 
 set(CW_BIN ${CMAKE_SOURCE_DIR}/bin) # The binary output directory
 
@@ -52,7 +53,8 @@ set(
 ) 
 
 if(BUILD_SOURCE)
-  add_executable(UltimateBattleship ${UB_SOURCE_FILES}) # Tell CMake to build to an executable
+  add_executable(UltimateBattleship ${UB_SOURCE_FILES}) # Tell CMake to build to
+                                                        # an executable
 
   # Link UltimateBattleship with various libraries
   target_link_libraries(UltimateBattleship sfml-graphics)
