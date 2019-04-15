@@ -3,7 +3,7 @@
 Created for a final project in Washington State University's CPTS 122 course.
 
 ## [Website](www.KaceCottam.github.io/UltimateBattleship) | [Github Index](docs/index.md)
- 
+
 An [SFML-Based](https://www.sfml-dev.org/index.php) Battleship program with networking capabilities.
 
 We also use [fmt](https://github.com/fmtlib/fmt), and [spdlog](https://github.com/gabime/spdlog).
@@ -11,7 +11,7 @@ This project also uses [CMake](https://cmake.org/).
 
 Built in Visual Studio Code and Visual Studio 2015.
 
-## Contributing: See [this](docs/contrib.md).
+## Contributing: See [this](docs/contrib.md)
 
 ## Project Layout
 
