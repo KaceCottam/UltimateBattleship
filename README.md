@@ -31,7 +31,7 @@ In the [releases](projects) tab. (When there is a release)
 Click singleplayer or multiplayer. In singleplayer you play against an AI. Choose a dificulty, then start playing!
 In multiplayer you must connect to a host by IP Address, then you may play!
 
-## Features
+## Features *all subject to change
 
 - [ ] **GUI**
 - [ ] **Placing ships**
