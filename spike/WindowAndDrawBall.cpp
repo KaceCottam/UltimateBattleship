@@ -64,7 +64,7 @@ int main() {
             Vector2f{(float)event.mouseButton.x - window.getPosition().x,
                      (float)event.mouseButton.y - window.getPosition().y};
         info("Mouse pressed at {{ {}, {} }}"_format(
-          mouse_properties.pressed.x,mouse_properties.pressed.y));
+            mouse_properties.pressed.x, mouse_properties.pressed.y));
       }
       if (event.type == Event::MouseButtonReleased &&
           event.mouseButton.button == Mouse::Left) {
@@ -75,9 +75,8 @@ int main() {
         mouse_properties.current =
             Vector2f{(float)event.mouseMove.x - window.getPosition().x,
                      (float)event.mouseMove.y - window.getPosition().y};
-        Vector2f move{
-            mouse_properties.pressed.x - mouse_properties.current.x,
-            mouse_properties.pressed.y - mouse_properties.current.y};
+        Vector2f move{mouse_properties.pressed.x - mouse_properties.current.x,
+                      mouse_properties.pressed.y - mouse_properties.current.y};
 
         auto move_ratio = view.getSize().x / regular_viewport.width;
         info("move ratio : {}"_format(move_ratio));
