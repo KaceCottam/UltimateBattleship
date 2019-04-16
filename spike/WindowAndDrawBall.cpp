@@ -56,31 +56,13 @@ int main() {
         info("Changed zoom by a factor of {}."_format(
             event.mouseWheelScroll.delta));
       }
-      // // Move view if mouse moved and pressed mouse button.
-      // if (event.type == Event::MouseMoved) {
-      //   if (Mouse::isButtonPressed(Mouse::Left)) {
-      //     Vector2f scaled_viewport = {view.getSize().x /
-      //     regular_viewport.width,
-      //                                 view.getSize().y /
-      //                                 regular_viewport.height};
-      //     info("scaled_viewport: {{ {}, {} }}"_format(scaled_viewport.x,
-      //                                                 scaled_viewport.y));
-      //     view.setCenter(view.getSize().x - event.mouseMove.x *
-      //     scaled_viewport.x,
-      //                    view.getSize().y - event.mouseMove.y *
-      //                    scaled_viewport.y);
-      //     info("Moved center of view to {{ {}, {} }}."_format(
-      //         view.getCenter().x, view.getCenter().y));
-      //   }
-      // }
-
-      // Move view if mouse moved/pressed
+      // Move view if mouse held down
       if (event.type == Event::MouseButtonPressed &&
           event.mouseButton.button == Mouse::Left &&
           mouse_properties.pressed == Vector2f{0, 0}) {
         mouse_properties.pressed =
-            Vector2f{event.mouseButton.x - window.getPosition().x,
-                     event.mouseButton.y - window.getPosition().y};
+            Vector2f{(float)event.mouseButton.x - window.getPosition().x,
+                     (float)event.mouseButton.y - window.getPosition().y};
         info("Mouse pressed at {{ {}, {} }}"_format(
           mouse_properties.pressed.x,mouse_properties.pressed.y));
       }
@@ -91,11 +73,17 @@ int main() {
       if (event.type == Event::MouseMoved &&
           mouse_properties.pressed != Vector2f{0, 0}) {
         mouse_properties.current =
-            Vector2f{event.mouseMove.x - window.getPosition().x,
-                     event.mouseMove.y - window.getPosition().y};
+            Vector2f{(float)event.mouseMove.x - window.getPosition().x,
+                     (float)event.mouseMove.y - window.getPosition().y};
         Vector2f move{
             mouse_properties.pressed.x - mouse_properties.current.x,
             mouse_properties.pressed.y - mouse_properties.current.y};
+
+        auto move_ratio = view.getSize().x / regular_viewport.width;
+        info("move ratio : {}"_format(move_ratio));
+
+        move *= move_ratio;
+
         mouse_properties.pressed = mouse_properties.current;
         info("Move {{ {}, {} }}"_format(move.x, move.y));
         view.move(move);
