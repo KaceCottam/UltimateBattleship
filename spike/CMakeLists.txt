@@ -1,17 +1,18 @@
 # Registers a spike.
 # Usage: register_spike(NAME <name>
 #                       SOURCES <all source files>
+#                       INCLUDE <any include directories>
 #                       DEPENDENCIES <sfml dependencies>)
 # Output executable is in ${CW_BIN} or bin/
 function(register_spike)
   set(SingleArgs NAME)
-  set(MultiArgs SOURCES DEPENDENCIES)
+  set(MultiArgs SOURCES DEPENDENCIES OPTIONAL INCLUDE)
   cmake_parse_arguments(SPIKE NONE "${SingleArgs}" "${MultiArgs}" ${ARGV})
 
   project(${SPIKE_NAME})
   add_executable(${SPIKE_NAME} ${SPIKE_SOURCES})
   target_link_libraries(${SPIKE_NAME} ${SPIKE_DEPENDENCIES})
-  target_link_directories(${SPIKE_NAME} PRIVATE ${SFML_INCLUDE})
+  target_link_directories(${SPIKE_NAME} PRIVATE ${SFML_INCLUDE} ${SPIKE_INCLUDE})
   set_target_properties(${SPIKE_NAME}
                         PROPERTIES
                         RUNTIME_OUTPUT_DIRECTORY ${CW_BIN})
@@ -22,5 +23,6 @@ register_spike(NAME WindowAndDrawBall
                DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)
 
 register_spike(NAME ButtonTest
-               SOURCES "ButtonTest.cpp"
+               SOURCES "ButtonTest.cpp" "GUI/Button.hpp"
+                       "SFMLUtil/FileNotFoundException.hpp"
                DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)

@@ -7,7 +7,8 @@ option(BUILD_TESTS "Build the test files" ON)
 option(BUILD_SPIKE "Build the spike files (files made for testing code snippets)"
        ON)
 
-set(CW_BIN ${CMAKE_SOURCE_DIR}/bin) # The binary output directory
+set(CW_BIN "${CMAKE_SOURCE_DIR}/bin") # The binary output directory
+set(CW_INCLUDE "${CMAKE_SOURCE_DIR}/include") # The include directory
 
 project(UltimateBattleship LANGUAGES C CXX VERSION 0.0.1) # Setup project
 # UltimateBattleship project related variables will be prefixed by 'UB_'
