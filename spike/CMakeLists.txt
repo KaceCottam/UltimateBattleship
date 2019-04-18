@@ -27,3 +27,11 @@ register_spike(NAME ButtonTest
                        "GUI/Button.hpp"
                        "SFMLUtil/FileNotFoundException.hpp"
                DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)
+
+register_spike(NAME BoardTest
+              SOURCES "Board.cpp"
+                      "Board.h"
+                      "Tile.h"
+                      "Tile.cpp"
+                      "TestBoardMain.cpp"
+              DEPENDENCIES sfml-graphics)
