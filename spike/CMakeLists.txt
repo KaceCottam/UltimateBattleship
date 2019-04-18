@@ -18,5 +18,9 @@ function(register_spike)
 endfunction()
 
 register_spike(NAME WindowAndDrawBall
-               SOURCES WindowAndDrawBall.cpp
+               SOURCES "WindowAndDrawBall.cpp"
+               DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)
+
+register_spike(NAME ButtonTest
+               SOURCES "ButtonTest.cpp"
                DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)
