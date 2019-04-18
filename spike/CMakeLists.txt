@@ -24,3 +24,11 @@ register_spike(NAME WindowAndDrawBall
 register_spike(NAME ButtonTest
                SOURCES "ButtonTest.cpp"
                DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)
+
+register_spike(NAME BoardTest
+              SOURCES "Board.cpp"
+                      "Board.h"
+                      "Tile.h"
+                      "Tile.cpp"
+                      "TestBoardMain.cpp"
+              DEPENDENCIES sfml-graphics)
