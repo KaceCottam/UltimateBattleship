@@ -73,7 +73,7 @@ int main() {
   button1.scale({3, 3});
   button2.setColor(sf::Color( 64, 64,255));
   button2.scale({3, 3});
-  button3.setColor(sf::Color::Green);
+  button3.setColor(sf::Color::Yellow);
   button3.scale({3, 3});
 
   ClickyRoundButton<3> button{window,{button1,button2,button3}};
