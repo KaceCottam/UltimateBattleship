@@ -93,3 +93,34 @@ We will definitely need a state machine for:
 
 We should have a program-wide singleton state machine. We can set up game
 screens into "scenes" like in Unity, Unreal Engine, and other game engines.
+
+## Graphics
+- [ ] Aircraft Carrier - Red/Blue - 5 Spaces
+- [ ] Battleship - Red/Blue - 4 Spaces
+- [ ] Cruiser - Red/Blue - 3 Spaces
+- [ ] Submarine - Red/Blue - 3 Spaces
+- [ ] Destroyer - Red/Blue = 2 Spaces
+- [ ] Tiles - Possibly with some water texture
+- [ ] Highlighted Tile
+- [ ] Title - "Ultimate Battleship"
+- [ ] Buttons
+- [ ] Hit Marker / Explosion / Explosion Animation
+- [ ] Miss Marker / Spash in Water / Splash Animation
+
+## Sound Effects
+- [ ] Explosion (hit)
+- [ ] Splash (miss)
+- [ ] Button click
+- [ ] Ship Placement?
+- [ ] Victory sound - played for winner
+- [ ] Losing sound - played for loser
+- [ ] Background Music
+
+## Ship Placement Ideas
+- Highlight tiles user is hovering over for ship placement
+- Have key(s) dedicated to rotating ship
+- Either move ship around with arrow keys or with mouse - arrow keys might be easier
+- Press enter to place ship
+
+## Other Random Ideas Depending on Time
+- Have the ability to choose your team's color
