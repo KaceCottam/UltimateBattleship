@@ -23,6 +23,7 @@ register_spike(NAME WindowAndDrawBall
                DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)
 
 register_spike(NAME ButtonTest
-               SOURCES "ButtonTest.cpp" "GUI/Button.hpp"
+               SOURCES "ButtonTest.cpp"
+                       "GUI/Button.hpp"
                        "SFMLUtil/FileNotFoundException.hpp"
                DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)
