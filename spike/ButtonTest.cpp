@@ -1,3 +1,15 @@
+/*
+ * This is an example of a button implemented in SFML
+ * Things learned: Buttons are hard, 
+ *                 textures must be loaded for sprites to work.
+ * ClickyRoundButton is my implementation of the base button.
+ * GUI::Button uses the GUI::Clickable and GUI::Hoverable interface.
+ * 
+ * In the program, a normally-white-but-colorized button can be found.
+ * You click this button to make it change to the next color {red,blue,green}
+ * It logs to the console when you hover, enter, exit, and click.
+ * It also logs if the button texture is not correctly loaded.
+ */
 #include <array>
 #include <stdexcept>
 #include <fmt/format.h>
@@ -98,18 +110,11 @@ class Button : public Clickable, public Hoverable, public Drawable {
 };
 
 struct FileNotFoundException : std::exception {
-  FileNotFoundException(const char *filename) {
-    error(format("File \"{}\" not found!",filename));
+  FileNotFoundException(const char *fileName) {
+    error(format("File \"{}\" not found!",fileName));
   }
 };
 
-inline Sprite makeSpriteFromFile(const char *filename) {
-  Texture tex;
-  if(!tex.loadFromFile(filename)) throw FileNotFoundException(filename);
-  Sprite spr{tex};
-  info(format("Created sprite from file \"{}\".",filename));
-  return spr;
-}
 }  // namespace GUI
 
 template<unsigned long long int Number>
@@ -154,13 +159,14 @@ class ClickyRoundButton : public GUI::Button {
 int main() {
   RenderWindow window(VideoMode{800, 800}, "Button Test");
   Texture button_tex;
-  if(!button_tex.loadFromFile("RoundButton1.png")) throw GUI::FileNotFoundException("RoundButton1.png");
+  if(!button_tex.loadFromFile("RoundButton1.png")) 
+    throw GUI::FileNotFoundException("RoundButton1.png");
   Sprite button1{button_tex};
   Sprite button2{button_tex};
   Sprite button3{button_tex};
   button1.setColor(sf::Color::Red);
   button1.scale({3, 3});
-  button2.setColor(sf::Color(128,128,255));
+  button2.setColor(sf::Color( 64, 64,255));
   button2.scale({3, 3});
   button3.setColor(sf::Color::Green);
   button3.scale({3, 3});
