@@ -1,8 +1,14 @@
+#pragma once
 #include <fmt/format.h>
 #include <spdlog/spdlog.h>
 #include <stdexcept>
-struct FileNotFoundException : std::exception {
-  FileNotFoundException(const char *fileName) {
-    spdlog::error(fmt::format("File \"{}\" not found!",fileName));
+namespace SFMLUtil {
+using fmt::format;
+using spdlog::error;
+struct FileNotFoundException : std::runtime_error {
+  FileNotFoundException(const char *fileName)
+  : runtime_error(format("File \"{}\" not found!", fileName)){
+    error(what());
   }
 };
+}  // namespace SFMLUtil
