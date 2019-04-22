@@ -1,6 +1,15 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+enum TileOccupation
+{
+	WATER, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, PREV_HIT, PREV_MISS
+};
 
 class Tile : public sf::RectangleShape
 {
@@ -13,9 +22,12 @@ public:
 		this->setPosition(pos);
 	}
 
-	bool getIsOccupied() const;
-	void setIsOccupied(const bool &newStatus);
+	//bool getIsOccupied() const;
+	int getOccupationType() const;
+
+	void setTileOccupation(const int &newOccupation);
+	//void setIsOccupied(const bool &newStatus);
 
 private:
-	bool mIsOccupied;
+	int mTileStatus;
 };
