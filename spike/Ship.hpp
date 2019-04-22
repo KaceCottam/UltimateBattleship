@@ -45,7 +45,7 @@ public:
                                [&](ShipNode i) { return i.hit; }) == Size;
   }
 
-  // This is called a constant expression. It can be compiled at runtime and is
+  // This is called a constant expression. It can be discovered at compile time and is
   // faster.
   constexpr int getSize() { return Size; }
   array<ShipNode, Size> getLocations() const {return locations_;}
