@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Coordinate.h"
+#include "Coordinate.hpp"
 
 using std::vector;
 
