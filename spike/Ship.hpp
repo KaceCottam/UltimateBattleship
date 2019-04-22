@@ -74,7 +74,7 @@ protected:
   //               for us.
   // int mSize; the array can keep track of the size.
   // int mPlayer;
-  const array<ShipNode, Size> locations_;
+  array<ShipNode, Size> locations_;
 };
 
 /*
