@@ -1,8 +1,8 @@
 #pragma once
 #include <array>
 #include <SFML/Graphics.hpp>
-#include "Coordinate.hpp"
-
+// #include "Coordinate.hpp" // we don't have to make the coordinate by ourselves,
+                             // but still look at the changes i made to it.
 /*
  * We can make the ship using an array, since we can know how big it is at compile
  * time.
@@ -13,7 +13,7 @@ using std::array;
 // a helper struct that contains coordinates and if the coordinate is hit.
 // Also contains the sprite that goes with the ship.
 struct ShipNode {
-  Coordinate coord;
+  sf::Vector2u coord; // we dont have to make the coordinate by ourselves.
   bool hit;
   sf::Sprite associated_sprite;
 };
@@ -32,7 +32,7 @@ public:
   // virtual void sinkShip() = 0; This will be the same among all base classes,
   //                              so it does not need to be overrided.
 
-  Ship(const array<Coordinate, Size> &locations) : locations_{locations} {}
+  Ship(const array<sf::Vector2u, Size> &locations) : locations_{locations} {}
 
   bool getIsSunk() const {
           // This uses a little bit of "functional programming".
