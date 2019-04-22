@@ -19,6 +19,33 @@ class Game {
 
   void AddScene(Scene *scene) { scenes_[scenes_.size()] = scene; }
 
+  bool Play() {
+    LoadScene(current_id_);
+    while (window_.isOpen()) {
+      Event event;
+      while (window_.pollEvent(event)) {
+        if (event.type == Event::Closed) window_.close();
+
+        auto result = scenes_[current_id_]->HandleEvent(event);
+        try {
+          if (result != current_id_) LoadScene(result);
+        } catch(const SFMLUtil::BadIndexError &e) {
+          warn("Disregard error if index == size!");
+          if (result == scenes_.size()) window_.close();
+          else throw e;
+        }
+      }
+
+      window_.clear();
+      window_.draw(*scenes_[current_id_]);
+      window_.display();
+    }
+    UnloadScene();
+
+    return EXIT_SUCCESS;
+  }
+
+ private:
   void LoadScene(const SceneId id) {
     try {
       scenes_.at(id)->LoadResources();
@@ -32,26 +59,6 @@ class Game {
     current_id_ = id;
   }
 
-  bool Play() {
-    while (window_.isOpen()) {
-      Event event;
-      while (window_.pollEvent(event)) {
-        if (event.type == Event::Closed) {
-          window_.close();
-        }
-
-        scenes_[current_id_]->HandleEvent(event);
-      }
-
-      window_.clear();
-      window_.draw(*scenes_[current_id_]);
-      window_.display();
-    }
-
-    return EXIT_SUCCESS;
-  }
-
- private:
   void UnloadScene() { scenes_[current_id_]->UnloadResources(); }
 
   std::map<SceneId, Scene *> scenes_;

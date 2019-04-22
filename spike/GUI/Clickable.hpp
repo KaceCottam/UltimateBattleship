@@ -5,7 +5,7 @@ class Clickable {
 protected:
   void ParseMouseClick(const sf::Event& event) {
     if (event.type == sf::Event::MouseButtonPressed &&
-        InArea({(float)event.mouseMove.x, (float)event.mouseMove.y})) {
+        InArea({(float)event.mouseButton.x, (float)event.mouseButton.y})) {
       OnClick(event);
     }
   }

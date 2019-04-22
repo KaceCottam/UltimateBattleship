@@ -1,3 +1,4 @@
+#include <iostream>
 #include <SFML/Graphics.hpp>
 
 #include "GUI/Button.hpp"
@@ -17,11 +18,16 @@ class ExitButton : public GUI::Button {
     SetSprite(sprite);
   }
 
-  void OnClick(const Event &event) override { info("Clicked!"); }
+  void OnClick(const Event &event) override {
+    info("Clicked!");
+    exit_state = 1;
+  }
 
   void OnEnter(const Event &event) override { info("Enter button!"); }
 
   void OnExit(const Event &event) override { info("Exit button!"); }
+
+  size_t exit_state;
 };
 
 class MainMenu : public GUI::Scene {
@@ -36,8 +42,8 @@ class MainMenu : public GUI::Scene {
   void LoadResources() override {
     info("Loading font");
     regular_font = std::make_unique<Font>();
-    if (!regular_font->loadFromFile("ARIAL.TFF")) {
-      throw SFMLUtil::FileNotFoundException("ARIAL.TFF");
+    if (!regular_font->loadFromFile("ARIAL.TTF")) {
+      throw SFMLUtil::FileNotFoundException("ARIAL.TTF");
     }
     info("Loading text");
     main_menu_text =
@@ -53,11 +59,16 @@ class MainMenu : public GUI::Scene {
                              button_sprite->getLocalBounds().height / 2);
     button_sprite->setPosition(300, 300);
     button_sprite->setColor(Color::Red);
+    button_sprite->scale({3, 3});
     info("Loading interactables");
     button = std::make_unique<ExitButton>((RenderWindow &)window_,
                                           &(*button_sprite));
   }
-  void HandleEvent(const Event &event) override { button->ParseEvent(event); }
+  SceneId HandleEvent(const Event &event) override {
+    button->ParseEvent(event);
+    if(button->exit_state) return 1;
+    return 0;
+  }
 
  private:
   std::unique_ptr<Font> regular_font;
@@ -73,4 +84,6 @@ int main() {
   MainMenu main_menu{window};
   game.AddScene(&main_menu);
   game.Play();
+
+  std::cin.get();
 }
