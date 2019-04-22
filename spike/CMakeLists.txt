@@ -18,20 +18,27 @@ function(register_spike)
                         RUNTIME_OUTPUT_DIRECTORY ${CW_BIN})
 endfunction()
 
+# TODO: Make a function for registering dependencies so we dont need such a long
+#       Sources section.
+
 register_spike(NAME WindowAndDrawBall
                SOURCES "WindowAndDrawBall.cpp"
                DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)
 
 register_spike(NAME ButtonTest
                SOURCES "ButtonTest.cpp"
-                       "GUI/Button.hpp"
+                       "GUI/Button.hpp" "GUI/Clickable.hpp" "GUI/Hoverable.hpp"
                        "SFMLUtil/FileNotFoundException.hpp"
                DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)
 
 register_spike(NAME BoardTest
-              SOURCES "Board.cpp"
-                      "Board.h"
-                      "Tile.h"
-                      "Tile.cpp"
+              SOURCES "Board.cpp" "Board.h"
+                      "Tile.cpp" "Tile.h"
                       "TestBoardMain.cpp"
               DEPENDENCIES sfml-graphics)
+
+register_spike(NAME SceneManagerTest
+               SOURCES "SceneManagerTest.cpp"
+                       "GUI/GameEngine.hpp" "GUI/Scene.hpp"
+                       "SFMLUtil/BadIndexError.hpp"
+               DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)

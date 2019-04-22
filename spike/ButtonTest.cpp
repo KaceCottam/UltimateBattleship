@@ -30,11 +30,6 @@ class ClickyRoundButton : public GUI::Button {
     SetSprite(&buttons_[increment++ % Number]);
   }
 
-  void ParseEvent(const Event &event) {
-    ParseMouseClick(event);
-    ParseMouseHover(event);
-  }
-
   void OnClick(const Event &event) override {
     SetSprite(&buttons_[increment++ % Number]);
     info("Clicked!");
@@ -65,7 +60,7 @@ int main() {
   RenderWindow window(VideoMode{800, 800}, "Button Test");
   Texture button_tex;
   if(!button_tex.loadFromFile("RoundButton1.png")) 
-    throw FileNotFoundException("RoundButton1.png");
+    throw SFMLUtil::FileNotFoundException("RoundButton1.png");
   Sprite button1{button_tex};
   Sprite button2{button_tex};
   Sprite button3{button_tex};
@@ -75,6 +70,7 @@ int main() {
   button2.scale({3, 3});
   button3.setColor(sf::Color::Yellow);
   button3.scale({3, 3});
+  button1.move({10,10,});
 
   ClickyRoundButton<3> button{window,{button1,button2,button3}};
 
