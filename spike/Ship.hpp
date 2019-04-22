@@ -42,7 +42,7 @@ public:
           // by reference. In the parenthesis is a parameter, and finally there
           // is the function block in the curly braces.
           return std::count_if(locations_.begin(), locations_.end(),
-                               [&](ShipNode i) { return i.hit; });
+                               [&](ShipNode i) { return i.hit; }) == Size;
   }
 
   // This is called a constant expression. It can be compiled at runtime and is
