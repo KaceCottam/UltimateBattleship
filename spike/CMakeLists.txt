@@ -62,7 +62,7 @@ register_helper(NAME GameEngine
                 SOURCES "GUI/GameEngine.hpp"
                 DEPENDENCIES sfml-graphics Scene BadIndexError
                              fmt::fmt spdlog::spdlog)
-if(OFF)
+
 register_spike(NAME WindowAndDrawBall
                SOURCES "WindowAndDrawBall.cpp"
                DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)
@@ -83,9 +83,12 @@ register_spike(NAME SceneManagerTest
                        "GUI/Scene.hpp"
                DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog
                             BadIndexError)
-endif()
 
 register_spike(NAME BasicBattleship
                 SOURCES "BasicBattleship.cpp" "Board.h" "TileMovement.hpp"
                 "ShipPlacement.hpp" "FiringMechanism.hpp"
+                DEPENDENCIES sfml-graphics)
+
+register_spike(NAME LoadTextureTest
+                SOURCES "LoadTextureTest.cpp" "Animation.h" "Animation.cpp"
                 DEPENDENCIES sfml-graphics)
