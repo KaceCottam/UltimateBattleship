@@ -1,11 +1,21 @@
 #include "Tile.h"
 
-bool Tile::getIsOccupied() const
+//bool Tile::getIsOccupied() const
+//{
+//	return mTileStatus;
+//}
+
+int Tile::getOccupationType() const
 {
-	return mIsOccupied;
+	return mTileStatus;
 }
 
-void Tile::setIsOccupied(const bool & newStatus)
+void Tile::setTileOccupation(const int & newOccupation)
 {
-	mIsOccupied = newStatus;
+	mTileStatus = newOccupation;
 }
+
+//void Tile::setIsOccupied(const bool & newStatus)
+//{
+//	mIsOccupied = newStatus;
+//}

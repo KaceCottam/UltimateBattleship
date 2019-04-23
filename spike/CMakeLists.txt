@@ -83,3 +83,8 @@ register_spike(NAME SceneManagerTest
                        "GUI/Scene.hpp"
                DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog
                             BadIndexError)
+
+register_spike(NAME BasicBattleship
+                SOURCES "BasicBattleship.cpp" "Board.h" "TileMovement.hpp"
+                "ShipPlacement.hpp" "FiringMechanism.hpp"
+                DEPENDENCIES sfml-graphics)
