@@ -26,7 +26,13 @@ if(BUILD_SOURCE)
   # Defining all of the files
   set(
     UB_SOURCE_FILES src/main.cpp 
-                    src/scenes/mainmenu.hpp
+                    include/GUI/GameEngine.hpp
+                    include/GUI/Scene.hpp
+                    include/GUI/Button.hpp
+                    include/GUI/Hoverable.hpp
+                    include/GUI/Clickable.hpp
+                    include/SFMLUtil/BadIndexError.hpp
+                    include/SFMLUtil/FileNotFoundException.hpp
   )
 
   add_executable(UltimateBattleship ${UB_SOURCE_FILES}) # Tell CMake to build to

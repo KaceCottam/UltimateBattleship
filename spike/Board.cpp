@@ -125,7 +125,7 @@ bool Board::isWinner()
 	return winner;
 }
 
-Tile& Board::getTileNum(int i, int j)
+Tile& Board::getTileNum(int i, int j) const
 {
 	return mGrid[i][j];
 }
