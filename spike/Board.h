@@ -37,7 +37,7 @@ public:
     {
       for (auto j = 0; j < 10; j++)
       {
-        target.draw(getTileNum(i, j));
+        target.draw(mGrid[i][j]);
       }
       
     }
@@ -56,7 +56,7 @@ public:
   bool updateFleetStatus();
   bool isWinner() const;
 
-  Tile &getTileNum(int i, int j) const;
+  Tile &getTileNum(int i, int j);
 
 private:
   Tile mGrid[10][10];

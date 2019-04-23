@@ -63,6 +63,30 @@ register_helper(NAME GameEngine
                 DEPENDENCIES sfml-graphics Scene BadIndexError
                              fmt::fmt spdlog::spdlog)
 
+register_helper(NAME Ship
+                SOURCES "Ship.hpp"
+                DEPENDENCIES sfml-graphics)
+
+register_helper(NAME Tile
+                SOURCES "Tile.h" "Tile.cpp"
+                DEPENDENCIES sfml-graphics)
+
+register_helper(NAME Board
+                SOURCES "Board.h" "Board.cpp"
+                DEPENDENCIES sfml-graphics Ship Tile)
+
+register_helper(NAME TileMovement
+                SOURCES "TileMovement.hpp"
+                DEPENDENCIES sfml-graphics Board)
+
+register_helper(NAME ShipPlacement
+                SOURCES "ShipPlacement.hpp"
+                DEPENDENCIES sfml-graphics Board TileMovement)
+
+register_helper(NAME FiringMechanism
+                SOURCES "FiringMechanism.hpp"
+                DEPENDENCIES sfml-graphics Board TileMovement)
+
 register_spike(NAME WindowAndDrawBall
                SOURCES "WindowAndDrawBall.cpp"
                DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)
@@ -85,10 +109,6 @@ register_spike(NAME SceneManagerTest
                             BadIndexError)
 
 register_spike(NAME BasicBattleship
-                SOURCES "BasicBattleship.cpp" "Board.h" "TileMovement.hpp"
-                "ShipPlacement.hpp" "FiringMechanism.hpp"
-                DEPENDENCIES sfml-graphics)
-
-register_spike(NAME LoadTextureTest
-                SOURCES "LoadTextureTest.cpp" "Animation.h" "Animation.cpp"
-                DEPENDENCIES sfml-graphics)
+                SOURCES "BasicBattleship.cpp" 
+                DEPENDENCIES sfml-graphics Board TileMovement ShipPlacement
+                FiringMechanism)
