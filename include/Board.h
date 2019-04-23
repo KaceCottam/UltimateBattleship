@@ -1,7 +1,8 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+
 #include "Tile.h"
 #include "Ship.hpp"
-#include <SFML/Graphics.hpp>
 
 class Board : public sf::Drawable
 {
@@ -56,7 +57,7 @@ public:
   bool updateFleetStatus();
   bool isWinner() const;
 
-  Tile &getTileNum(int i, int j) const;
+  Tile getTileNum(int i, int j) const;
 
 private:
   Tile mGrid[10][10];

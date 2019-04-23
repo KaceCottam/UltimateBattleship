@@ -2,36 +2,32 @@
 #include <map>
 
 #include <SFML/Graphics.hpp>
-#include <fmt/format.h>
 #include <spdlog/spdlog.h>
 
-#include "Scene.hpp"
-#include "../SFMLUtil/BadIndexError.hpp"
+#include <Scene.hpp>
+#include <SFMLUtil/BadIndexError.hpp>
 
 namespace GUI {
-using namespace sf;
-using namespace fmt;
-using namespace spdlog;
 class Game {
  public:
   using SceneId = std::size_t;
 
-  Game(RenderWindow& window) : window_{window} {}
+  Game(sf::RenderWindow& window) : window_{window} {}
 
   void AddScene(Scene *scene) { scenes_[scenes_.size()] = scene; }
 
   bool Play() {
     LoadScene(current_id_);
     while (window_.isOpen()) {
-      Event event;
+      sf::Event event;
       while (window_.pollEvent(event)) {
-        if (event.type == Event::Closed) window_.close();
+        if (event.type == sf::Event::Closed) window_.close();
 
         auto result = scenes_[current_id_]->HandleEvent(event);
         try {
           if (result != current_id_) LoadScene(result);
         } catch(const SFMLUtil::BadIndexError &e) {
-          warn("Disregard error if index == size!");
+          spdlog::warn("Disregard error if index == size!");
           if (result == scenes_.size()) window_.close();
           else throw e;
         }

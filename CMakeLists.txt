@@ -33,6 +33,11 @@ if(BUILD_SOURCE)
                     include/GUI/Clickable.hpp
                     include/SFMLUtil/BadIndexError.hpp
                     include/SFMLUtil/FileNotFoundException.hpp
+                    include/Board.cpp
+                    include/Board.h
+                    include/Ship.hpp
+                    include/Tile.cpp
+                    include/Tile.h
   )
 
   add_executable(UltimateBattleship ${UB_SOURCE_FILES}) # Tell CMake to build to
@@ -45,7 +50,8 @@ if(BUILD_SOURCE)
 
   set_target_properties(UltimateBattleship
                         PROPERTIES
-                        RUNTIME_OUTPUT_DIRECTORY ${CW_BIN})
+                        RUNTIME_OUTPUT_DIRECTORY ${CW_BIN}
+                        CXX_STANDARD 17)
 endif()
 
 if(BUILD_SPIKE)
