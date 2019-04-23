@@ -18,8 +18,50 @@ function(register_spike)
                         RUNTIME_OUTPUT_DIRECTORY ${CW_BIN})
 endfunction()
 
-# TODO: Make a function for registering dependencies so we dont need such a long
-#       Sources section.
+# Registers a helping library.
+# USage: register_helper(NAME <name>
+#                        SOURCES <all source files>
+#                        [DEPENDENCIES <all dependencies>]
+#                        [INCLUDE <all additional include directories>])
+function(register_helper)
+  set(SingleArgs NAME)
+  set(MultiArgs SOURCES OPTIONAL DEPENDENCIES INCLUDE)
+  cmake_parse_arguments(HELP NONE "${SingleArgs}" "${MultiArgs}" ${ARGV})
+
+  project(${HELP_NAME} C CXX)
+  add_library(${HELP_NAME} ${HELP_SOURCES} static.cpp)
+  target_link_libraries(${HELP_NAME} ${HELP_DEPENDENCIES})
+  target_link_directories(${HELP_NAME} PRIVATE ${SFML_INCLUDE} ${HELP_INCLUDE})
+endfunction()
+
+register_helper(NAME Clickable
+                SOURCES "GUI/Clickable.hpp"
+                DEPENDENCIES sfml-graphics)
+
+register_helper(NAME Hoverable
+                SOURCES "GUI/Hoverable.hpp"
+                DEPENDENCIES sfml-graphics)
+
+register_helper(NAME Button
+                SOURCES "GUI/Button.hpp"
+                DEPENDENCIES sfml-graphics Clickable Hoverable)
+
+register_helper(NAME FileNotFoundException
+                SOURCES "SFMLUtil/FileNotFoundException.hpp"
+                DEPENDENCIES fmt::fmt spdlog::spdlog)
+
+register_helper(NAME BadIndexError
+                SOURCES "SFMLUtil/BadIndexError.hpp"
+                DEPENDENCIES fmt::fmt spdlog::spdlog)
+
+register_helper(NAME Scene
+                SOURCES "GUI/Scene.hpp"
+                DEPENDENCIES sfml-graphics)
+
+register_helper(NAME GameEngine
+                SOURCES "GUI/GameEngine.hpp"
+                DEPENDENCIES sfml-graphics Scene BadIndexError
+                             fmt::fmt spdlog::spdlog)
 
 register_spike(NAME WindowAndDrawBall
                SOURCES "WindowAndDrawBall.cpp"
@@ -27,9 +69,8 @@ register_spike(NAME WindowAndDrawBall
 
 register_spike(NAME ButtonTest
                SOURCES "ButtonTest.cpp"
-                       "GUI/Button.hpp" "GUI/Clickable.hpp" "GUI/Hoverable.hpp"
-                       "SFMLUtil/FileNotFoundException.hpp"
-               DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)
+               DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog
+                            Button FileNotFoundException)
 
 register_spike(NAME BoardTest
               SOURCES "Board.cpp" "Board.h"
@@ -39,6 +80,6 @@ register_spike(NAME BoardTest
 
 register_spike(NAME SceneManagerTest
                SOURCES "SceneManagerTest.cpp"
-                       "GUI/GameEngine.hpp" "GUI/Scene.hpp"
-                       "SFMLUtil/BadIndexError.hpp"
-               DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog)
+                       "GUI/Scene.hpp"
+               DEPENDENCIES sfml-graphics fmt::fmt spdlog::spdlog
+                            BadIndexError)

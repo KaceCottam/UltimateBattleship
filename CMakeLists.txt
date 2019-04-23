@@ -25,13 +25,21 @@ add_subdirectory(lib/spdlog)
 if(BUILD_SOURCE)
   # Defining all of the files
   set(
-    UB_SOURCE_FILES src/main.cpp
+    UB_SOURCE_FILES src/main.cpp 
+                    src/scenes/mainmenu.hpp
   )
+
   add_executable(UltimateBattleship ${UB_SOURCE_FILES}) # Tell CMake to build to
                                                         # an executable
 
+  target_include_directories(UltimateBattleship PRIVATE ${CW_INCLUDE}) # Include 'include' folder
+
   # Link UltimateBattleship with various libraries
-  target_link_libraries(UltimateBattleship sfml-graphics)
+  target_link_libraries(UltimateBattleship sfml-graphics fmt::fmt spdlog::spdlog)
+
+  set_target_properties(UltimateBattleship
+                        PROPERTIES
+                        RUNTIME_OUTPUT_DIRECTORY ${CW_BIN})
 endif()
 
 if(BUILD_SPIKE)
