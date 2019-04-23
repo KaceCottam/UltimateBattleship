@@ -1,9 +1,10 @@
+#include <iostream>
+#include <queue>
 #include <SFML/Graphics.hpp>
 #include "Board.h"
 #include "TileMovement.hpp"
 #include "ShipPlacement.hpp"
 #include "FiringMechanism.hpp"
-#include <iostream>
 
 using std::cout;
 using std::endl;
@@ -17,8 +18,6 @@ int main()
 
   Board playBoard[2] = { Board(sf::Color::Blue), Board(sf::Color::Red) };
 
-  // ? Do we need this? we can use a static variable inside the function to keep track of change.
-  bool upPressed = false, rightPressed = false, downPressed = false, leftPressed = false, rPressed = false, enterPressed = false;
   bool isShipPlacement = true;
   bool isPlayer1 = true;
   int curShip = CARRIER;
@@ -34,104 +33,64 @@ int main()
     {
       if (event.type == sf::Event::Closed)
         window.close();
-    }
-    
-    window.clear();
-    
-    if (isShipPlacement)
-    {
-      window.draw(playBoard[isPlayer1]);
-      numHighlight(playBoard[isPlayer1], upPressed, downPressed, rightPressed, leftPressed, rPressed, curOrientation, curShipLength);
+      if (isShipPlacement) {
+        window.draw(playBoard[isPlayer1]);
+        numHighlight(playBoard[isPlayer1], event, curOrientation,
+                     curShipLength);
 
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-      {
-        enterPressed = true;
-      }
-      else
-      {
-        if (enterPressed == true)
-        {
-          placeShip(playBoard[isPlayer1], curShip, curShipLength, curOrientation, isPlayer1, isShipPlacement);
-          enterPressed = false;
+        if (event.type == sf::Event::KeyReleased &&
+            event.key.code == sf::Keyboard::Enter) {
+          placeShip(playBoard[isPlayer1], curShip, curShipLength,
+                    curOrientation, isPlayer1, isShipPlacement);
         }
-      }
-    }
-    else if (!isWinner) // GAMEPLAY
-    {
-      bool waitingEnter = false;
-      int fireStatus = INVALID;
-
-      if (firstTurn)
+      } else if (!isWinner)  // GAMEPLAY
       {
-        playBoard[0].resetHighlight();
-        playBoard[0].resetFill();
-        playBoard[1].resetHighlight();
-        playBoard[1].resetFill();
-        firstTurn = false;
-      }
+        bool waitingEnter = false;
+        int fireStatus = INVALID;
 
-      for (int i = 0; i < 10; ++i)
-      {
-        for (int j = 0; j < 10; ++j)
-        {
-          window.draw(playBoard[isPlayer1].getTileNum(i, j));
+        if (firstTurn) {
+          playBoard[0].resetHighlight();
+          playBoard[0].resetFill();
+          playBoard[1].resetHighlight();
+          playBoard[1].resetFill();
+          firstTurn = false;
         }
-      }
-      singleHighlight(playBoard[isPlayer1], upPressed, downPressed, rightPressed, leftPressed);
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-      {
-        enterPressed = true;
-      }
-      else
-      {
-        if (enterPressed == true)
-        {
-          if (!waitingEnter)
-          {
-            fireStatus = fire(playBoard[isPlayer1]);
-            if (fireStatus != INVALID)
-            {
+
+        window.draw(playBoard[isPlayer1]);
+        singleHighlight(playBoard[isPlayer1], event);
+        if (event.type == sf::Event::KeyReleased &&
+            event.key.code == sf::Keyboard::Enter) {
+          if (!waitingEnter) {
+            fireStatus = fire(playBoard[isPlayer1]);  // Firing mechanism.hpp
+            if (fireStatus != INVALID) {
               waitingEnter = true;
-              if (fireStatus == HIT)
-              {
+              if (fireStatus == HIT) {
                 bool newShipSunk = playBoard[isPlayer1].updateFleetStatus();
-                if (newShipSunk)
-                {
-                  //cout << "NEW SHIP SUNK" << endl;
+                if (newShipSunk) {
+                  // cout << "NEW SHIP SUNK" << endl;
                   isWinner = playBoard[isPlayer1].isWinner();
                 }
               }
-              if (isPlayer1)
-              {
+              if (isPlayer1) {
                 isPlayer1 = false;
-              }
-              else
-              {
+              } else {
                 isPlayer1 = true;
               }
             }
-          }
-          else
-          {
+          } else {
             waitingEnter = false;
             isPlayer1 = false;
           }
-          enterPressed = false;
         }
-      }
-      
-    }
-    else
-    {
-      if (isWinner)
-      {
-        cout << "PLAYER " << isPlayer1 + 1 << "WINS!" << endl;
+
+      } else {
+        if (isWinner) {
+          cout << "PLAYER " << isPlayer1 + 1 << "WINS!" << endl;
+        }
       }
     }
 
     window.display();
-
-  
   }
 
   return 0;
