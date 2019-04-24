@@ -37,7 +37,9 @@ if(BUILD_SOURCE)
                     include/SFMLUtil/FileNotFoundException.hpp
                     include/Board.cpp include/Board.h
                     include/Ship.hpp
-                    include/Tile.cpp include/Tile.h)
+                    include/Tile.cpp include/Tile.h
+                    include/ShipPlacement.hpp
+                    include/TileMovement.hpp)
 
   add_executable(UltimateBattleship ${UB_SOURCE_FILES}) # Tell CMake to build to
                                                         # an executable

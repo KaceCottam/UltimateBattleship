@@ -1,131 +1,75 @@
 #include "Board.h"
+#include <functional>
 
-void Board::updateHighlight(int x, int y)
-{
-	if (x < 0 || y < 0)
-	{
-		if (x < 0)
-		{
-			x = 9;
-		}
-		if (y < 0)
-		{
-			y = 9;
-		}
-	}
-	else
-	{
-		x = x % 10;
-		y = y % 10;
-	}
+void Board::updateHighlight(int x, int y) {
+  x = abs(x % 10);
+  y = abs(y % 10);
 
-	mGrid[mCurYPos][mCurXPos].setOutlineColor(mColor);
-	mCurXPos = x;
-	mCurYPos = y;
-	mGrid[mCurYPos][mCurXPos].setOutlineColor(sf::Color::Yellow);
+  mGrid[mCurYPos * 10 + mCurXPos].setOutlineColor(mColor);
+  mCurXPos = x;
+  mCurYPos = y;
+  mGrid[mCurYPos * 10 + mCurXPos].setOutlineColor(sf::Color::Yellow);
 }
 
-void Board::updateSecondaryHighlight(int x, int y)
-{
-	mGrid[y][x].setOutlineColor(sf::Color::Yellow);
+void Board::updateSecondaryHighlight(int x, int y) {
+  mGrid[x + y * 10].setOutlineColor(sf::Color::Yellow);
 }
 
-void Board::resetHighlight()
-{
-	for (int i = 0; i < 10; ++i)
-	{
-		for (int j = 0; j < 10; ++j)
-		{
-			mGrid[i][j].setOutlineColor(mColor);
-		}
-	}
+void Board::resetHighlight() {
+  for (int i = 0; i < 100; ++i) {
+      mGrid[i].setOutlineColor(mColor);
+  }
 }
 
-void Board::resetFill()
-{
-	for (int i = 0; i < 10; ++i)
-	{
-		for (int j = 0; j < 10; ++j)
-		{
-			mGrid[i][j].setFillColor(sf::Color::Transparent);
-		}
-	}
+void Board::resetFill() {
+  for (int i = 0; i < 100; ++i) {
+      mGrid[i].setFillColor(sf::Color::Transparent);
+  }
 }
 
-//void Board::fire(int x, int y)
-//{
-//	if (mGrid[y][x].getIsOccupied() == true)
-//	{
-//		mGrid[y][x].setFillColor(sf::Color::Magenta);
-//	}
-//	else
-//	{
-//		mGrid[y][x].setFillColor(sf::Color::Cyan);
-//	}
-//}
+int Board::getCurXPos() const { return mCurXPos; }
 
-int Board::getCurXPos() const
-{
-	return mCurXPos;
+int Board::getCurYPos() const { return mCurYPos; }
+
+bool Board::updateFleetStatus() {
+  bool found = false;
+
+  auto discover_sunk_ship =
+      [&](const int currentSearch) {
+        // Finds a ship if it is the same occupation type as the current search
+        auto found_thing =
+            std::find_if(mGrid.begin(), mGrid.end(), [&currentSearch](auto i) {
+              if (i.getOccupationType() == currentSearch) return true;
+              return false;
+            });
+        // If it can't find it in the grid, (ie it is a previous miss or hit)
+        if (found_thing == mGrid.end()) {
+          // If this ship is still considered alive, it is marked as sunk.
+          if (mFleet[currentSearch] == true) {
+            cout << "Ship Type: " << found_thing->getOccupationType() << " has been sunk!" << endl;
+            mFleet[currentSearch] = false;
+            return true;
+          }
+        }
+        return false;
+      };
+
+  for(int i = TileOccupation::CARRIER; i <= TileOccupation::DESTROYER; ++i) {
+    found = discover_sunk_ship(i-1);
+    if(found) break;
+  }
+  return found;
 }
 
-int Board::getCurYPos() const
-{
-	return mCurYPos;
+bool Board::isWinner() const {
+  bool winner = true;
+
+  for (int count = 0; count < 5 && winner; ++count) {
+    if (mFleet[count]) {
+      winner = false;
+    }
+  }
+  return winner;
 }
 
-bool Board::updateFleetStatus()
-{
-	bool newShipSunk = false;
-	int numGone = 0;
-	int occupationType = 0;
-	bool found = false;
-
-	for (int currentSearch = CARRIER; currentSearch <= DESTROYER; ++currentSearch)
-	{
-		for (int i = 0; i < 10 && !found; ++i)
-		{
-			for (int j = 0; j < 10 && !found; ++j)
-			{
-				occupationType = mGrid[i][j].getOccupationType();
-				if (occupationType == currentSearch)
-				{
-					found = true;
-				}
-			}
-		}
-		
-		if (!found)
-		{
-			//cout << "It gets here" << endl;
-			if (mFleet[currentSearch - 1])
-			{
-				cout << "Ship Type: " << currentSearch << " has been sunk!" << endl;
-				mFleet[currentSearch - 1] = false;
-				newShipSunk = true;
-			}
-		}
-		found = false;
-	}
-	
-	return newShipSunk;
-}
-
-bool Board::isWinner() const
-{
-	bool winner = true;
-
-	for (int count = 0; count < 5 && winner; ++count)
-	{
-		if (mFleet[count])
-		{
-			winner = false;
-		}
-	}
-	return winner;
-}
-
-Tile Board::getTileNum(int i, int j) const
-{
-	return mGrid[i][j];
-}
+Tile Board::getTileNum(int j, int i) const { return mGrid[i + j * 10]; }
