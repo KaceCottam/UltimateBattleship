@@ -7,11 +7,11 @@
 class Board : public sf::Drawable {
  public:
   Board(const sf::Color &myColor) {
-    int xPos = 10, yPos = 10;
+    int xSize = 40, ySize = 40;
     for (int i = 0; i < 100; ++i) {
       mGrid[i].setOutlineColor(myColor);
-      mGrid[i].setPosition(sf::Vector2f(xPos, yPos));
-      mGrid[i].setSize(sf::Vector2f(40, 40));
+      mGrid[i].setPosition(sf::Vector2f(xSize*(i % 10), ySize*(i/10)));
+      mGrid[i].setSize(sf::Vector2f(xSize,ySize));
       mGrid[i].setTileOccupation(WATER);
     }
 
@@ -21,10 +21,12 @@ class Board : public sf::Drawable {
     for (int count = 0; count < 5; ++count) {
       mFleet[count] = true;
     }
+
+    mGrid[1].setOutlineColor(sf::Color::Yellow);
   }
 
   void draw(sf::RenderTarget &target, sf::RenderStates states) const override {
-    for (auto i = 0; i < 100; i++) {
+    for (auto i = 0; i < 10; i++) {
       for (auto j = 0; j < 10; j++) {
         target.draw(getTileNum(i, j));
       }

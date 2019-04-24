@@ -72,4 +72,4 @@ bool Board::isWinner() const {
   return winner;
 }
 
-Tile Board::getTileNum(int i, int j) const { return mGrid[i + j * 10]; }
+Tile Board::getTileNum(int j, int i) const { return mGrid[i + j * 10]; }

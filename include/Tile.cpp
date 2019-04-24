@@ -8,4 +8,5 @@ int Tile::getOccupationType() const
 void Tile::setTileOccupation(const int & newOccupation)
 {
 	mTileStatus = newOccupation;
+  setFillColor(sf::Color::Magenta);
 }

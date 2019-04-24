@@ -1,5 +1,7 @@
 #include "Placing.hpp"
 #include <spdlog/spdlog.h>
+#include <TileMovement.hpp>
+#include <ShipPlacement.hpp>
 
 Placing::Placing(Board& red_board, Board& blue_board)
     : red_board{red_board}, blue_board{blue_board} {
@@ -11,8 +13,8 @@ void Placing::HandleEvent(const sf::Event& e) {
                curShipLength);
 
   if (e.type == sf::Event::KeyReleased && e.key.code == sf::Keyboard::Enter) {
-    placeShip(player1 ? blue_board:red_board], curShip, curShipLength,
-              curOrientation, isPlayer1, isShipPlacement);
+    placeShip(player1 ? red_board:blue_board, curShip, curShipLength,
+              curOrientation, player1, done_filling_out);
   }
 }
 
