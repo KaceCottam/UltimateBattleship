@@ -8,6 +8,20 @@
 using std::cout;
 using std::endl;
 
+	//printf("-----------------------------------------------------------------------------------------------\n");
+	//printf("                                 ***WELCOME TO BATTLESHIP***                               \n\n");
+	//printf("Rules:                                                                                   \n");
+	//printf("1. This is a two player game.\n");
+	//printf("2. You are Player1 and the computer is Player2.\n");
+	//printf("3. Each of you have a 10x10 board and 5 ships of various lengths.\n");
+	//printf("4. You can either place your ships manually or have it done randomly.\n");
+	//printf("5. Once all ships are placed, players take turns guessing where the other player's ships are.\n");
+	//printf("6. If you guessed correctly, you get a hit, if you didn't, you get a miss.\n");
+	//printf("7. A ship sinks when all of its cells have been hit.\n");
+	//printf("8. Guessing continues until one player sinks all ships of the other player, therefore winning.\n");
+	//printf("-----------------------------------------------------------------------------------------------\n");
+
+
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(500, 500), "Ultimate Battleship");
