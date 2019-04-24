@@ -119,5 +119,5 @@ register_spike(NAME SceneManagerTest
 register_spike(NAME BasicBattleship
                 SOURCES "BasicBattleship.cpp" "Board.h" "Board.cpp"
                         "TileMovement.hpp" "ShipPlacement.hpp" "FiringMechanism.hpp"
-                        "Tile.h" "Tile.cpp"
+                        "Tile.h" "Tile.cpp" "Animation.h" "Animation.cpp"
                 DEPENDENCIES sfml-graphics)
