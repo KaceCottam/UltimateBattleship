@@ -18,7 +18,8 @@ function(register_spike)
   target_link_directories(${SPIKE_NAME} PRIVATE ${SFML_INCLUDE} ${SPIKE_INCLUDE})
   set_target_properties(${SPIKE_NAME}
                         PROPERTIES
-                        RUNTIME_OUTPUT_DIRECTORY ${CW_BIN})
+                        RUNTIME_OUTPUT_DIRECTORY ${CW_BIN}
+                        CXX_STANDARD 17)
   endif()
 endfunction()
 
@@ -36,6 +37,9 @@ function(register_helper)
   add_library(${HELP_NAME} ${HELP_SOURCES} static.cpp)
   target_link_libraries(${HELP_NAME} ${HELP_DEPENDENCIES})
   target_link_directories(${HELP_NAME} PRIVATE ${SFML_INCLUDE} ${HELP_INCLUDE})
+  set_target_properties(${HELP_NAME}
+                        PROPERTIES
+                        CXX_STANDARD 17)
 endfunction()
 
 register_helper(NAME Clickable
