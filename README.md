@@ -32,7 +32,7 @@ In the [releases](projects) tab. (When there is a release)
 
 ## Compiling
 
-To compile, in the root directory use the command
+To compile, in the root directory use the command. (CMAKE IS REQUIRED)
 
 ```bash
 cmake -B build -DBUILD_SOURCE=OFF -DBUILD_TESTS=OFF -DBUILD_SPIKE=ON -DBUILD_WindowAndDrawBall=OFF -DBUILD_ButtonTest=OFF -DBUILD_BoardTest=OFF -DBUILD_SceneManagerTest=OFF -DBUILD_BasicBattleship=ON

@@ -5,7 +5,7 @@ using namespace sf;
 class Animation : public Sprite
 {
 public:
-
+    Animation() = default;
     Animation(const Texture &texture) : Sprite(texture) 
     {
        // Initialize the view of the animation so that it shows the 1st frame
