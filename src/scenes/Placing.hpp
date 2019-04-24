@@ -9,6 +9,8 @@ class Placing : public State {
   std::optional<int> getNextState() const override;
 
  private:
+ int curOrientation;
+ int curShipLength;
   bool player1{false};
   Board &red_board;
   Board &blue_board;
