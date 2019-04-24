@@ -118,6 +118,7 @@ register_spike(NAME SceneManagerTest
 
 register_spike(NAME BasicBattleship
                 SOURCES "BasicBattleship.cpp" "Animation.h" "Animation.cpp"
+                "State.hpp"
                 DEPENDENCIES sfml-graphics Board TileMovement ShipPlacement FiringMechanism)
 
 register_spike(NAME BasicBattleshipTests
