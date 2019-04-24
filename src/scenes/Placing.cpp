@@ -7,7 +7,7 @@ Placing::Placing(Board& red_board, Board& blue_board)
 }
 
 void Placing::HandleEvent(const sf::Event &e) {
-
+  
 }
 
 void Placing::draw(sf::RenderTarget& target, sf::RenderStates states) const {
