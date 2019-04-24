@@ -50,10 +50,10 @@ In multiplayer you must connect to a host by IP Address, then you may play!
 - [x] **GUI**
 - [x] **Placing ships**
 - [x] **Shooting ships**
-- [ ] Being shot at by an AI
 - [x] **Winning or Losing**
 - [x] Multiplayer seeing enemy ships // Splitscreen
 - [x] Multiplayer shooting at enemy ships // Splitscreen
+- [ ] Being shot at by an AI
 - [ ] Singleplayer Difficulty options
 - [ ] Special ship abilities?
 - [ ] Maps?
