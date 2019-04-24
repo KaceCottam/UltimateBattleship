@@ -117,13 +117,10 @@ register_spike(NAME SceneManagerTest
                             BadIndexError)
 
 register_spike(NAME BasicBattleship
-                SOURCES "BasicBattleship.cpp" "Board.h" "Board.cpp"
-                        "TileMovement.hpp" "ShipPlacement.hpp" "FiringMechanism.hpp"
-                        "Tile.h" "Tile.cpp" "Animation.h" "Animation.cpp"
-                DEPENDENCIES sfml-graphics)
+                SOURCES "BasicBattleship.cpp" "Animation.h" "Animation.cpp"
+                DEPENDENCIES sfml-graphics Board TileMovement ShipPlacement FiringMechanism)
 
 register_spike(NAME BasicBattleshipTests
-                SOURCES "BasicBattleshipTests.cpp" "Board.h" "Board.cpp"
-                        "TileMovement.hpp" "ShipPlacement.hpp" "FiringMechanism.hpp"
-                        "Tile.h" "Tile.cpp" "Animation.h" "Animation.cpp"
-                DEPENDENCIES sfml-graphics)
+                SOURCES "BasicBattleshipTests.cpp" 
+                "Animation.h" "Animation.cpp" "Tests.h" "Tests.cpp"
+                DEPENDENCIES sfml-graphics Board TileMovement ShipPlacement FiringMechanism)
