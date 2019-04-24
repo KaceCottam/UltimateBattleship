@@ -2,5 +2,5 @@
 
 int main() {
   Board a();
-  a.
+  a.`
 }
