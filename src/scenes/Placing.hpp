@@ -11,7 +11,7 @@ class Placing : public State {
  private:
   int curOrientation = 0;
   int curShipLength = 5;
-  int curShip = 0;
+  int curShip = 1;
   bool player1{true};
   Board &red_board;
   Board &blue_board;

@@ -1,148 +1,122 @@
 #include <SFML/Graphics.hpp>
-#include "Board.h"
-#include "TileMovement.hpp"
-#include "ShipPlacement.hpp"
-#include "FiringMechanism.hpp"
 #include <iostream>
+#include "Board.h"
+#include "FiringMechanism.hpp"
+#include "ShipPlacement.hpp"
+#include "TileMovement.hpp"
 
 using std::cout;
 using std::endl;
 
-int main()
-{
-	sf::RenderWindow window(sf::VideoMode(500, 500), "Ultimate Battleship");
+int main() {
+  sf::RenderWindow window(sf::VideoMode(500, 500), "Ultimate Battleship");
 
-	/*Board player1Board(sf::Color::Red);
-	Board player2Board(sf::Color::Blue);*/
+  /*Board player1Board(sf::Color::Red);
+  Board player2Board(sf::Color::Blue);*/
 
-	Board playBoard[2] = { Board(sf::Color::Blue), Board(sf::Color::Red) };
+  // ! This is the 2AM build of Battleship in SFML. We are sorry!
 
-	bool upPressed = false, rightPressed = false, downPressed = false, leftPressed = false, rPressed = false, enterPressed = false;
-	bool isShipPlacement = true;
-	bool isPlayer1 = true;
-	int curShip = CARRIER;
-	int curShipLength = 5;
-	int curOrientation = HORIZONTAL;
-	bool firstTurn = true;
-	bool isWinner = false;
+  Board playBoard[2] = {Board(sf::Color::Blue), Board(sf::Color::Red)};
 
-	while (window.isOpen() && !isWinner)
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-		
-		window.clear();
-		
-		if (isShipPlacement)
-		{
-			for (int i = 0; i < 10; ++i)
-			{
-				for (int j = 0; j < 10; ++j)
-				{
-					window.draw(playBoard[isPlayer1].getTileNum(i, j));
-				}
-			}
-			numHighlight(playBoard[isPlayer1], upPressed, downPressed, rightPressed, leftPressed, rPressed, curOrientation, curShipLength);
+  bool upPressed = false, rightPressed = false, downPressed = false,
+       leftPressed = false, rPressed = false, enterPressed = false;
+  bool isShipPlacement = true;
+  bool isPlayer1 = true;
+  int curShip = CARRIER;
+  int curShipLength = 5;
+  int curOrientation = HORIZONTAL;
+  bool firstTurn = true;
+  bool isWinner = false;
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-			{
-				enterPressed = true;
-			}
-			else
-			{
-				if (enterPressed == true)
-				{
-					placeShip(playBoard[isPlayer1], curShip, curShipLength, curOrientation, isPlayer1, isShipPlacement);
-					enterPressed = false;
-				}
-			}
-		}
-		else if (!isWinner) // GAMEPLAY
-		{
-			bool waitingEnter = false;
-			int fireStatus = INVALID;
+  while (window.isOpen() && !isWinner) {
+    sf::Event event;
+    while (window.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) window.close();
+    }
 
-			if (firstTurn)
-			{
-				playBoard[0].resetHighlight();
-				playBoard[0].resetFill();
-				playBoard[1].resetHighlight();
-				playBoard[1].resetFill();
-				firstTurn = false;
-			}
+    window.clear();
 
-			for (int i = 0; i < 10; ++i)
-			{
-				for (int j = 0; j < 10; ++j)
-				{
-					window.draw(playBoard[isPlayer1].getTileNum(i, j));
-				}
-			}
-			singleHighlight(playBoard[isPlayer1], upPressed, downPressed, rightPressed, leftPressed);
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-			{
-				enterPressed = true;
-			}
-			else
-			{
-				if (enterPressed == true)
-				{
-					if (!waitingEnter)
-					{
-						fireStatus = fire(playBoard[isPlayer1]);
-						if (fireStatus != INVALID)
-						{
-							waitingEnter = true;
-							if (fireStatus == HIT)
-							{
-								bool newShipSunk = playBoard[isPlayer1].updateFleetStatus();
-								if (newShipSunk)
-								{
-									//cout << "NEW SHIP SUNK" << endl;
-									isWinner = playBoard[isPlayer1].isWinner();
-								}
-							}
-							if (isPlayer1)
-							{
-								isPlayer1 = false;
-							}
-							else
-							{
-								isPlayer1 = true;
-							}
-						}
-					}
-					else
-					{
-						waitingEnter = false;
-						isPlayer1 = false;
-					}
-					enterPressed = false;
-				}
-			}
-			
-		}
-		else
-		{
-			if (isWinner)
-			{
-				cout << "PLAYER " << isPlayer1 + 1 << "WINS!" << endl;
-			}
-		}
+    if (isShipPlacement) {
+      for (int i = 0; i < 10; ++i) {
+        for (int j = 0; j < 10; ++j) {
+          window.draw(playBoard[isPlayer1].getTileNum(i, j));
+        }
+      }
+      numHighlight(playBoard[isPlayer1], upPressed, downPressed, rightPressed,
+                   leftPressed, rPressed, curOrientation, curShipLength);
 
-		window.display();
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+        enterPressed = true;
+      } else {
+        if (enterPressed == true) {
+          placeShip(playBoard[isPlayer1], curShip, curShipLength,
+                    curOrientation, isPlayer1, isShipPlacement);
+          enterPressed = false;
+        }
+      }
+    } else if (!isWinner)  // GAMEPLAY
+    {
+      bool waitingEnter = false;
+      int fireStatus = INVALID;
 
-	
-	}
+      if (firstTurn) {
+        playBoard[0].resetHighlight();
+        playBoard[0].resetFill();
+        playBoard[1].resetHighlight();
+        playBoard[1].resetFill();
+        firstTurn = false;
+      }
 
-	return 0;
+      for (int i = 0; i < 10; ++i) {
+        for (int j = 0; j < 10; ++j) {
+          window.draw(playBoard[isPlayer1].getTileNum(i, j));
+        }
+      }
+      singleHighlight(playBoard[isPlayer1], upPressed, downPressed,
+                      rightPressed, leftPressed);
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+        enterPressed = true;
+      } else {
+        if (enterPressed == true) {
+          if (!waitingEnter) {
+            fireStatus = fire(playBoard[isPlayer1]);
+            if (fireStatus != INVALID) {
+              waitingEnter = true;
+              if (fireStatus == HIT) {
+                bool newShipSunk = playBoard[isPlayer1].updateFleetStatus();
+                if (newShipSunk) {
+                  // cout << "NEW SHIP SUNK" << endl;
+                  isWinner = playBoard[isPlayer1].isWinner();
+                }
+              }
+              if (isPlayer1) {
+                isPlayer1 = false;
+              } else {
+                isPlayer1 = true;
+              }
+            }
+          } else {
+            waitingEnter = false;
+            isPlayer1 = false;
+          }
+          enterPressed = false;
+        }
+      }
+
+    } else {
+      if (isWinner) {
+        cout << "PLAYER " << isPlayer1 + 1 << "WINS!" << endl;
+      }
+    }
+
+    window.display();
+  }
+
+  std::cin.get();
+  return 0;
 }
 
-//int main()
+// int main()
 //{
 //	sf::RenderWindow window(sf::VideoMode(500, 500), "Ultimate Battleship");
 //
@@ -169,7 +143,7 @@ int main()
 //		{
 //			if (event.type == sf::Event::Closed)
 //				window.close();
-//		}	
+//		}
 //		window.clear();
 //
 //		window.draw(s1);

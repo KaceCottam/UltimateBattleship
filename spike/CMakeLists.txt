@@ -9,6 +9,9 @@ function(register_spike)
   set(MultiArgs SOURCES DEPENDENCIES OPTIONAL INCLUDE)
   cmake_parse_arguments(SPIKE NONE "${SingleArgs}" "${MultiArgs}" ${ARGV})
 
+  set(SPIKE_OPTION_NAME "BUILD_${SPIKE_NAME}")
+  option(${SPIKE_OPTION_NAME} OFF)
+  if(${SPIKE_OPTION_NAME})
   project(${SPIKE_NAME})
   add_executable(${SPIKE_NAME} ${SPIKE_SOURCES})
   target_link_libraries(${SPIKE_NAME} ${SPIKE_DEPENDENCIES})
@@ -16,6 +19,7 @@ function(register_spike)
   set_target_properties(${SPIKE_NAME}
                         PROPERTIES
                         RUNTIME_OUTPUT_DIRECTORY ${CW_BIN})
+  endif()
 endfunction()
 
 # Registers a helping library.
