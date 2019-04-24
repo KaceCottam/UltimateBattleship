@@ -121,3 +121,9 @@ register_spike(NAME BasicBattleship
                         "TileMovement.hpp" "ShipPlacement.hpp" "FiringMechanism.hpp"
                         "Tile.h" "Tile.cpp" "Animation.h" "Animation.cpp"
                 DEPENDENCIES sfml-graphics)
+
+register_spike(NAME BasicBattleshipTests
+                SOURCES "BasicBattleshipTests.cpp" "Board.h" "Board.cpp"
+                        "TileMovement.hpp" "ShipPlacement.hpp" "FiringMechanism.hpp"
+                        "Tile.h" "Tile.cpp" "Animation.h" "Animation.cpp"
+                DEPENDENCIES sfml-graphics)

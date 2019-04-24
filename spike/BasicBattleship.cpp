@@ -2,6 +2,8 @@
 #include <iostream>
 #include "Board.h"
 #include "FiringMechanism.hpp"
+#include "ShipPlacement.hpp"
+#include "TileMovement.hpp"
 #include "Animation.h"
 #include <iostream>
 
