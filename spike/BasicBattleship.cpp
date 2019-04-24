@@ -35,6 +35,9 @@ class Information : public State {
         "7. A ship sinks when all of its cells have been hit.\n"
         "8. Guessing continues until one player sinks all ships of the other "
         "player, therefore winning.\n"
+        "Use the arrow keys to move on the grid.\n"
+        "Use 'r' to rotate the ship while placing it.\n"
+        "Press enter to finish your turn.\n"
         "Press enter to continue");
     text.setCharacterSize(12U);
     return true;
@@ -62,6 +65,10 @@ class Information : public State {
 class Placement : public State {
  public:
   Placement(Board *boards) : playBoard{boards} {}
+  bool LoadResources() override {
+    std::cout << "Placing" << std::endl;
+    return true;
+  }
   void HandleEvent(const sf::Event &event) override {
     if (isShipPlacement) {
       numHighlight(playBoard[isPlayer1], upPressed, downPressed, rightPressed,
@@ -106,19 +113,24 @@ class Battle : public State {
  public:
   Battle(Board *boards, RenderWindow &window) : playBoard{boards}, window{window} {}
   bool LoadResources() override {
+    std::cout << "Battling" << std::endl;
     try {
       splashTexture.loadFromFile("SplashAnimation.png");
     } catch (const std::exception &e) {
       std::cerr << e.what();
+      return false;
     } catch (...) {
       std::cerr << "unexpected error";
+      return false;
     }
 
     try {
       explosionTexture.loadFromFile("ExplosionAnimation.png");
     } catch (const std::exception &e) {
       std::cerr << e.what();
+      return false;
     } catch (...) {
+      return false;
       std::cerr << "unexpected error";
     }
 
@@ -127,6 +139,7 @@ class Battle : public State {
 
     splashAnimation.scale(sf::Vector2f(5, 5));
     explosionAnimation.scale(sf::Vector2f(5, 5));
+    return true;
   }
 
   void HandleEvent(const sf::Event &event) override {
@@ -240,6 +253,7 @@ void SwitchStateIfNecessary(State *&current_state, sf::RenderWindow &window,
                             Board *playBoard) {
   auto next = current_state->getNextState();
   if (next.has_value()) {
+    std::cout << "Switching state..." << std::endl;
     current_state->UnloadResources();
     delete current_state;
     switch (next.value()) {

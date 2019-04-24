@@ -9,6 +9,6 @@ class State : public sf::Drawable {
   virtual void draw(sf::RenderTarget &target,
                     sf::RenderStates states = sf::RenderStates::Default) const = 0;
   virtual std::optional<int> getNextState() const = 0;
-  virtual bool LoadResources() {}
-  virtual bool UnloadResources() {}
+  virtual bool LoadResources() { return true; }
+  virtual bool UnloadResources() { return true; }
 };
