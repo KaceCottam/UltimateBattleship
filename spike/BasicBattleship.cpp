@@ -1,14 +1,19 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "Board.h"
-#include "TileMovement.hpp"
-#include "ShipPlacement.hpp"
 #include "FiringMechanism.hpp"
+<<<<<<< HEAD
 #include "Animation.h"
 #include <iostream>
+=======
+#include "ShipPlacement.hpp"
+#include "TileMovement.hpp"
+>>>>>>> 45636302090a645935f0c5a633b97cb87d6e7be0
 
 using std::cout;
 using std::endl;
 
+<<<<<<< HEAD
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(500, 500), "Ultimate Battleship");
@@ -203,9 +208,117 @@ int main()
 	}
 
 	return 0;
+=======
+int main() {
+  sf::RenderWindow window(sf::VideoMode(500, 500), "Ultimate Battleship");
+
+  /*Board player1Board(sf::Color::Red);
+  Board player2Board(sf::Color::Blue);*/
+
+  // ! This is the 2AM build of Battleship in SFML. We are sorry!
+
+  Board playBoard[2] = {Board(sf::Color::Blue), Board(sf::Color::Red)};
+
+  bool upPressed = false, rightPressed = false, downPressed = false,
+       leftPressed = false, rPressed = false, enterPressed = false;
+  bool isShipPlacement = true;
+  bool isPlayer1 = true;
+  int curShip = CARRIER;
+  int curShipLength = 5;
+  int curOrientation = HORIZONTAL;
+  bool firstTurn = true;
+  bool isWinner = false;
+
+  while (window.isOpen() && !isWinner) {
+    sf::Event event;
+    while (window.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) window.close();
+    }
+
+    window.clear();
+
+    if (isShipPlacement) {
+      for (int i = 0; i < 10; ++i) {
+        for (int j = 0; j < 10; ++j) {
+          window.draw(playBoard[isPlayer1].getTileNum(i, j));
+        }
+      }
+      numHighlight(playBoard[isPlayer1], upPressed, downPressed, rightPressed,
+                   leftPressed, rPressed, curOrientation, curShipLength);
+
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+        enterPressed = true;
+      } else {
+        if (enterPressed == true) {
+          placeShip(playBoard[isPlayer1], curShip, curShipLength,
+                    curOrientation, isPlayer1, isShipPlacement);
+          enterPressed = false;
+        }
+      }
+    } else if (!isWinner)  // GAMEPLAY
+    {
+      bool waitingEnter = false;
+      int fireStatus = INVALID;
+
+      if (firstTurn) {
+        playBoard[0].resetHighlight();
+        playBoard[0].resetFill();
+        playBoard[1].resetHighlight();
+        playBoard[1].resetFill();
+        firstTurn = false;
+      }
+
+      for (int i = 0; i < 10; ++i) {
+        for (int j = 0; j < 10; ++j) {
+          window.draw(playBoard[isPlayer1].getTileNum(i, j));
+        }
+      }
+      singleHighlight(playBoard[isPlayer1], upPressed, downPressed,
+                      rightPressed, leftPressed);
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+        enterPressed = true;
+      } else {
+        if (enterPressed == true) {
+          if (!waitingEnter) {
+            fireStatus = fire(playBoard[isPlayer1]);
+            if (fireStatus != INVALID) {
+              waitingEnter = true;
+              if (fireStatus == HIT) {
+                bool newShipSunk = playBoard[isPlayer1].updateFleetStatus();
+                if (newShipSunk) {
+                  // cout << "NEW SHIP SUNK" << endl;
+                  isWinner = playBoard[isPlayer1].isWinner();
+                }
+              }
+              if (isPlayer1) {
+                isPlayer1 = false;
+              } else {
+                isPlayer1 = true;
+              }
+            }
+          } else {
+            waitingEnter = false;
+            isPlayer1 = false;
+          }
+          enterPressed = false;
+        }
+      }
+
+    } else {
+      if (isWinner) {
+        cout << "PLAYER " << isPlayer1 + 1 << "WINS!" << endl;
+      }
+    }
+
+    window.display();
+  }
+
+  std::cin.get();
+  return 0;
+>>>>>>> 45636302090a645935f0c5a633b97cb87d6e7be0
 }
 
-//int main()
+// int main()
 //{
 //	sf::RenderWindow window(sf::VideoMode(500, 500), "Ultimate Battleship");
 //
@@ -232,7 +345,7 @@ int main()
 //		{
 //			if (event.type == sf::Event::Closed)
 //				window.close();
-//		}	
+//		}
 //		window.clear();
 //
 //		window.draw(s1);
