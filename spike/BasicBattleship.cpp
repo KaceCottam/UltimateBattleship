@@ -3,6 +3,7 @@
 #include "TileMovement.hpp"
 #include "ShipPlacement.hpp"
 #include "FiringMechanism.hpp"
+#include "Animation.h"
 #include <iostream>
 
 using std::cout;
@@ -12,8 +13,35 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(500, 500), "Ultimate Battleship");
 
-	/*Board player1Board(sf::Color::Red);
-	Board player2Board(sf::Color::Blue);*/
+	sf::Texture splashTexture = sf::Texture{};
+	try {
+		splashTexture.loadFromFile("SplashAnimation.png");
+	}
+	catch (const std::exception &e) {
+		std::cerr << e.what();
+
+	}
+	catch (...) {
+		std::cerr << "unexpected error";
+	}
+
+	sf::Texture explosionTexture = sf::Texture{};
+	try {
+		explosionTexture.loadFromFile("ExplosionAnimation.png");
+	}
+	catch (const std::exception &e) {
+		std::cerr << e.what();
+
+	}
+	catch (...) {
+		std::cerr << "unexpected error";
+	}
+
+	Animation splashAnimation(splashTexture);
+	Animation explosionAnimation(explosionTexture);
+	splashAnimation.scale(sf::Vector2f(5,5));
+	explosionAnimation.scale(sf::Vector2f(5,5));
+	sf::Clock gameClock;
 
 	Board playBoard[2] = { Board(sf::Color::Blue), Board(sf::Color::Red) };
 
@@ -97,14 +125,48 @@ int main()
 						if (fireStatus != INVALID)
 						{
 							waitingEnter = true;
+							auto placement_rect = 
+									playBoard[isPlayer1]
+										.getTileNum(playBoard[isPlayer1].getCurYPos(),
+													playBoard[isPlayer1].getCurXPos())
+										.getGlobalBounds();
+
+								sf::Transform animationTransform;
+								animationTransform.translate({placement_rect.left - 20, placement_rect.top - 20});
 							if (fireStatus == HIT)
 							{
+								
+								while (explosionAnimation.getCurFrame() < 9)
+								{
+									if (gameClock.getElapsedTime().asSeconds() > .2)
+        							{
+										explosionAnimation.changeFrame();
+          								gameClock.restart();
+        							}
+																		
+									window.draw(explosionAnimation, animationTransform);
+									window.display();
+								}
+								explosionAnimation.resetFrame();
 								bool newShipSunk = playBoard[isPlayer1].updateFleetStatus();
 								if (newShipSunk)
 								{
-									//cout << "NEW SHIP SUNK" << endl;
 									isWinner = playBoard[isPlayer1].isWinner();
 								}
+							}
+							else
+							{
+								while (splashAnimation.getCurFrame() < 9)
+								{
+									if (gameClock.getElapsedTime().asSeconds() > .2)
+        							{
+										splashAnimation.changeFrame();
+          								gameClock.restart();
+        							}
+									window.draw(splashAnimation, animationTransform);
+									window.display();
+								}
+								splashAnimation.resetFrame();
 							}
 							if (isPlayer1)
 							{
@@ -118,6 +180,7 @@ int main()
 					}
 					else
 					{
+						
 						waitingEnter = false;
 						isPlayer1 = false;
 					}

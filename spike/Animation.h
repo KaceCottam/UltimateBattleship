@@ -14,10 +14,15 @@ public:
         mCurView.height = 16;
         mCurView.width = 16;
         this->setTextureRect(mCurView);
+
+        mCurFrame = 0;
     };
 
     void changeFrame(void);
+    int getCurFrame(void);
+    void resetFrame();
 
 private:
     sf::IntRect mCurView;
+    int mCurFrame;
 };

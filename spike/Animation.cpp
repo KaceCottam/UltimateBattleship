@@ -19,5 +19,18 @@ void Animation::changeFrame(void)
         }
         mCurView.left = 0;
     }
+    mCurFrame++;
     this->setTextureRect(mCurView); // set the new view
+}
+
+int Animation::getCurFrame(void)
+{
+    return mCurFrame;
+}
+
+void Animation::resetFrame()
+{
+    mCurFrame = 0;
+    mCurView.left = 0;
+    mCurView.top = 0;
 }
