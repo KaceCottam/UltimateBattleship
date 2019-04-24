@@ -2,7 +2,6 @@
 #include "Board.h"
 #include "TileMovement.hpp"
 
-// Places ship on board
 void placeShip(Board &playerBoard, int &curShip, int &shipLength, int curOrientation, bool &isPlayer1, bool &isShipPlacement)
 {
 	int curX = playerBoard.getCurXPos(), curY = playerBoard.getCurYPos();
@@ -31,7 +30,7 @@ void placeShip(Board &playerBoard, int &curShip, int &shipLength, int curOrienta
 	}
 	else // VERTICAL
 	{
-		for (int count = 0; count < shipLength && valid; ++count) // check if valid
+		for (int count = 0; count < shipLength && valid; ++count)
 		{
 			if (playerBoard.getTileNum(curY, curX).getOccupationType() != WATER)
 			{
@@ -53,25 +52,25 @@ void placeShip(Board &playerBoard, int &curShip, int &shipLength, int curOrienta
 
 	if (valid)
 	{
-		if (curShip != DESTROYER) // more ships to place
+		if (curShip != DESTROYER)
 		{
-			if (curShip != CRUISER) // next ship will be 1 less in length
+			if (curShip != CRUISER)
 			{
 				shipLength--;
 			}
-			curShip++; // progress to next ship
+			curShip++;
 		}
-		else // no more ships to place
+		else
 		{
 			if (isPlayer1)
 			{
-				isPlayer1 = false; // switch to player 2
-				curShip = CARRIER; // reset to first ship to place (Carrier)
+				isPlayer1 = false;
+				curShip = CARRIER;
 				shipLength = 5;
 			}
-			else // done placing ships
+			else
 			{
-				isPlayer1 = true; // player 1's turn again
+				isPlayer1 = true;
 				isShipPlacement = false;
 			}
 		}
